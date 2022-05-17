@@ -1,11 +1,19 @@
 const express = require('express')
-const app = express()
-const port = 4000
 
-app.get('/xxx', (request, response) => {
-  response.send('你好')
+const app = express()
+
+app.use((request, response, next) => {
+  console.log(request.url)
+  response.write('hi')
+  next()
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+app.use((request, response, next) => {
+  console.log(2)
+  response.write('hi')
+  response.end()
+})
+
+app.listen(3000, () => {
+  console.log('正在 listen 3000')
 })
