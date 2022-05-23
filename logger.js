@@ -1,4 +1,8 @@
-const logger = function (request, response, next) {
-  console.log(request.url)
-  next()
+const logger = (prefix) => {
+  return (request, response, next) => {
+    console.log(`${prefix}: request.url`)
+    next()
+  }
 }
+
+module.exports = logger
