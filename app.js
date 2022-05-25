@@ -5,11 +5,9 @@ const app = express()
 
 app.use(logger('dev'))
 app.use((request, response, next) => {
-  response.write('1')
   next()
 })
 app.use((request, response, next) => {
-  response.write('2')
   if (true) {
     next('未登录')
   } else
@@ -22,9 +20,11 @@ app.use((request, response, next) => {
 })
 
 app.use((error, request, response, next) => {
-  response.write(error)
-  response.end()
-  next()
+  if (response.headersSent) {
+    return next(error)
+  }
+  response.status(500)
+  response.send(error)
 })
 
 app.listen(3000, () => {
